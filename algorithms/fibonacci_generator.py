@@ -5,4 +5,4 @@ def fibonacci_generator(val):
         yield s
         p, s = s, p + s
 
-print([x for x in fibonacci_generator(50)])
+#print([x for x in fibonacci_generator(50)])
