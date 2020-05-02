@@ -7,6 +7,7 @@ class Node:
 class DoublyLinkedList:
     def __init__(self):
         self.__head = None
+        self.__final = None
         self.__lenght = 0
 
     @property
@@ -16,6 +17,14 @@ class DoublyLinkedList:
     @head.setter
     def head(self, new_head):
         self.__head = new_head
+
+    @property
+    def final(self):
+        return self.__final
+
+    @final.setter
+    def final(self, new_final):
+        self.__final = new_final
 
     @property
     def lenght(self):
@@ -31,10 +40,34 @@ class DoublyLinkedList:
         return Node(node)
 
     def _len_linked_list(self):
-        pass
+        current_node = self.head
+        cont = 0
+        while True:
+            cont += 1
+            if current_node.next is None:
+                self.lenght = cont
+                return
+            current_node = current_node.next
 
     def _find_node(self, position):
+        size = self.lenght/2
 
+        if position < size + 1:
+            current_node = self.head
+            pos = 0
+            while True:
+                pos += 1
+                if pos == position:
+                    return current_node
+                current_node = current_node.next
+
+        current_node = self.final
+        pos = self.lenght + 1
+        while True:
+            pos -= 1
+            if pos == position:
+                return current_node
+            current_node = current_node.prev
 
     def _insert_node(self, node, position=None):
         node = self._create_node(node)
@@ -45,17 +78,25 @@ class DoublyLinkedList:
             return True
 
         # Insert at the end of DoublyLinkedList
-        if position is None:
+        if position in [None, self.lenght + 1]:
             current_node = self.head
             while current_node.next is not None:
                 current_node = current_node.next
+            self.final = node
             node.prev = current_node
             current_node.next = node
             return True
 
         # Insert at a given position
-        if position not in [None]:
-            self._find_node(position)
+        if position not in [None, 0, 1]:
+            current_node = self._find_node(position)
+            temporary = current_node.prev
+            temporary.next = node
+            node.prev = temporary
+            node.next = current_node
+            current_node.prev = node
+            del temporary
+            return True
 
         # Insert at the head of the DoublyLinkedList
         temporary = self.head
@@ -77,6 +118,8 @@ class DoublyLinkedList:
 
     def show(self):
         current_node = self.head
+        pos = 1
         while current_node is not None:
-            print(current_node.data)
+            print(f"\033[33m[{pos}]\033[30m{current_node.data}")
             current_node = current_node.next
+            pos += 1
