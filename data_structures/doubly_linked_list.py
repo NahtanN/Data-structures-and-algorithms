@@ -38,19 +38,14 @@ class DoublyLinkedList:
     # PRIVATE METHODS ---------------------------------------------------------------------------------
 
     def _create_node(self, node):
+        """Create a new Node"""
         return Node(node)
 
-    def _len_linked_list(self):
-        current_node = self.head
-        cont = 0
-        while True:
-            cont += 1
-            if current_node.next is None:
-                self.lenght = cont
-                return
-            current_node = current_node.next
-
     def _find_node(self, position):
+        """
+        Find the requested Node
+        :return: current_node
+        """
         size = self.lenght / 2
 
         if position < size + 1:
@@ -71,6 +66,13 @@ class DoublyLinkedList:
             current_node = current_node.prev
 
     def _insert_node(self, node, position=None):
+        """
+        Inserts the Node in the requested position
+        :param node: any data or object
+        :param position: None
+        :return: True, if position is in range
+        :return: False, if position is out of range
+        """
         if position is not None:
             if position > self.lenght + 1 or position <= 0:
                 return False
@@ -108,6 +110,12 @@ class DoublyLinkedList:
         return True
 
     def _delete_node(self, position=None):
+        """
+        Delete the Node of a requested position
+        :param position: None
+        :return: True, if position is in range
+        :return: False, if position is out of range
+        """
         if position is not None:
             if position > self.lenght or position < 0:
                 return False
@@ -141,14 +149,25 @@ class DoublyLinkedList:
     # PUBLIC METHODS ----------------------------------------------------------------------------------
 
     def add_node(self, node, position=None):
+        """
+        Public method to add a Node to DoublyLinkedList
+        :param node: any data or object
+        :param position: None
+        :return: None
+        """
         validation = self._insert_node(node, position)
 
         if validation is True:
-            self._len_linked_list()
+            self.lenght += 1
             return
         print("\033[31mPosition out of range\033[30m")
 
     def delete_node(self, position=None):
+        """
+        Public method to delete a Node to DoublyLinkedList
+        :param position: None
+        :return: None
+        """
         validation = self._delete_node(position)
 
         if validation is True:
@@ -157,6 +176,10 @@ class DoublyLinkedList:
         print("\033[31mPosition out of range\033[30m")
 
     def show(self):
+        """
+        Public method to print the DoublyLinkedList
+        :return: None
+        """
         if self.lenght != 0:
             current_node = self.head
             pos = 1
