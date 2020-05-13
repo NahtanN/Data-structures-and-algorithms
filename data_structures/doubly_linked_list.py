@@ -69,7 +69,7 @@ class DoublyLinkedList:
         """
         Inserts the Node in the requested position
         :param node: any data or object
-        :param position: None
+        :param position: None by default
         :return: None
         """
 
@@ -108,9 +108,8 @@ class DoublyLinkedList:
     def _delete_node(self, position=None):
         """
         Delete the Node of a requested position
-        :param position: None
-        :return: True, if position is in range
-        :return: False, if position is out of range
+        :param position: None by default
+        :return: None
         """
 
         # Delete the last Node
@@ -139,15 +138,33 @@ class DoublyLinkedList:
         self.head.prev = None
         return
 
+    def _pick_up(self, position=None):
+        """
+        :param position: None
+        :return: Any Node of the DoublyLinkedList
+        """
+
+        # Pick the final Node
+        if position is None or position == self.lenght:
+            return self.final.data
+
+        # Pick the head Node
+        if position == 1:
+            return self.head.data
+
+        # Pick the node of a given position
+        return self._find_node(position).data
+
     # PUBLIC METHODS ----------------------------------------------------------------------------------
 
     def add_node(self, node, position=None):
         """
         Public method to add a Node to DoublyLinkedList
         :param node: any data or object
-        :param position: None
+        :param position: None by default
         :return: print statement, if the position is out of range
         """
+
         if position is not None:
             if position > self.lenght + 1 or position <= 0:
                 return print("\033[31mPosition out of range\033[30m")
@@ -158,15 +175,33 @@ class DoublyLinkedList:
     def remove_node(self, position=None):
         """
         Public method to delete a Node to DoublyLinkedList
-        :param position: None
-        :return: print statement, if the position is out of range
+        :param position: None by default
+        :return: print statement, if the position is empty or out of range
         """
+
+        if self.lenght == 0:
+            return print("\033[34mThe list is empty\033[30m")
+
         if position is not None:
             if position > self.lenght or position <= 0:
                 return print("\033[31mPosition out of range\033[30m")
 
         self._delete_node(position)
         self.lenght -= 1
+
+    def get_node(self, position=None):
+        """
+        :param position: None by default
+        :return: Any Node of the DoublyLinkedList
+        """
+        if self.lenght == 0:
+            return print("\033[34mThe list is empty\033[30m")
+
+        if position is not None:
+            if position > self.lenght or position <= 0:
+                return print("\033[31mPosition out of range\033[30m")
+
+        return self._pick_up(position)
 
     def show(self):
         """
