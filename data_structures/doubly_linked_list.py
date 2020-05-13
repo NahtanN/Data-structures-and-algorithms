@@ -116,8 +116,7 @@ class DoublyLinkedList:
         if self.lenght == 1:
             self.head = None
             self.final = None
-            print("\033[34mThe list has been emptied\033[30m")
-            return
+            return print("\033[34mThe list has been emptied\033[30m")
 
         # Delete the final Node
         if position in [None, self.lenght]:
@@ -203,17 +202,31 @@ class DoublyLinkedList:
 
         return self._pick_up(position)
 
-    def show(self):
+    def show(self, reverse=False):
         """
         Public method to print the DoublyLinkedList
+        :param reverse: False by default. If its True, reverse the print statement
         :return: None
         """
+
         if self.lenght != 0:
-            current_node = self.head
-            pos = 1
-            while current_node is not None:
-                print(f"\033[33m[{pos}]\033[30m{current_node.data}")
-                current_node = current_node.next
-                pos += 1
-            return
+            if reverse is False:
+                current_node = self.head
+                pos = 1
+                while current_node is not None:
+                    print(f"\033[33m[{pos}]\033[30m{current_node.data}")
+                    current_node = current_node.next
+                    pos += 1
+                return
+
+            if reverse is True:
+                current_node = self.final
+                pos = self.lenght
+                while current_node is not None:
+                    print(f"\033[33m[{pos}]\033[30m{current_node.data}")
+                    current_node = current_node.prev
+                    pos -= 1
+                return
+
         print("\033[34mThe list is empty.\033[30m")
+
