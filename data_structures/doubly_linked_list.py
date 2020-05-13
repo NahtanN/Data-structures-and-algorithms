@@ -70,19 +70,15 @@ class DoublyLinkedList:
         Inserts the Node in the requested position
         :param node: any data or object
         :param position: None
-        :return: True, if position is in range
-        :return: False, if position is out of range
+        :return: None
         """
-        if position is not None:
-            if position > self.lenght + 1 or position <= 0:
-                return False
 
         node = self._create_node(node)
 
         # Create a new doubly linked list
         if self.head is None:
             self.head = node
-            return True
+            return
 
         # Insert at the end of DoublyLinkedList
         if position in [None, self.lenght + 1]:
@@ -92,7 +88,7 @@ class DoublyLinkedList:
                 current_node = current_node.next
             node.prev = current_node
             current_node.next = node
-            return True
+            return
 
         # Insert at a given position
         if position not in [None, 1]:
@@ -101,13 +97,13 @@ class DoublyLinkedList:
             node.prev = current_node.prev
             node.next = current_node
             current_node.prev = node
-            return True
+            return
 
         # Insert at the head of the DoublyLinkedList
         self.head.prev = node
         node.next = self.head
         self.head = node
-        return True
+        return
 
     def _delete_node(self, position=None):
         """
@@ -116,35 +112,32 @@ class DoublyLinkedList:
         :return: True, if position is in range
         :return: False, if position is out of range
         """
-        if position is not None:
-            if position > self.lenght or position < 0:
-                return False
 
         # Delete the last Node
         if self.lenght == 1:
             self.head = None
             self.final = None
             print("\033[34mThe list has been emptied\033[30m")
-            return True
+            return
 
         # Delete the final Node
         if position in [None, self.lenght]:
             self.final = self.final.prev
             self.final.next = None
-            return True
+            return
 
-            # Delete Node of a given position
+        # Delete Node of a given position
         if position not in [None, 1]:
             current_node = self._find_node(position)
             current_node.prev.next = current_node.next
             current_node.next.prev = current_node.prev
             del current_node
-            return True
+            return
 
         # Delete the head Node
         self.head = self.head.next
         self.head.prev = None
-        return True
+        return
 
     # PUBLIC METHODS ----------------------------------------------------------------------------------
 
@@ -153,27 +146,27 @@ class DoublyLinkedList:
         Public method to add a Node to DoublyLinkedList
         :param node: any data or object
         :param position: None
-        :return: None
+        :return: print statement, if the position is out of range
         """
-        validation = self._insert_node(node, position)
+        if position is not None:
+            if position > self.lenght + 1 or position <= 0:
+                return print("\033[31mPosition out of range\033[30m")
 
-        if validation is True:
-            self.lenght += 1
-            return
-        print("\033[31mPosition out of range\033[30m")
+        self._insert_node(node, position)
+        self.lenght += 1
 
-    def delete_node(self, position=None):
+    def remove_node(self, position=None):
         """
         Public method to delete a Node to DoublyLinkedList
         :param position: None
-        :return: None
+        :return: print statement, if the position is out of range
         """
-        validation = self._delete_node(position)
+        if position is not None:
+            if position > self.lenght or position <= 0:
+                return print("\033[31mPosition out of range\033[30m")
 
-        if validation is True:
-            self.lenght -= 1
-            return
-        print("\033[31mPosition out of range\033[30m")
+        self._delete_node(position)
+        self.lenght -= 1
 
     def show(self):
         """
